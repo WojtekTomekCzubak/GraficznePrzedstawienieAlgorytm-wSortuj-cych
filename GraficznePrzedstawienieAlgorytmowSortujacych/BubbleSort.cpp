@@ -50,17 +50,6 @@ void BubbleSort::bubbleSortingFunction()
 		}
 	}
 
-	/* for (int i = 0; i < this->shapes.size() - 1; i++) {
-		for (int j = 0; j < this->shapes.size() - i - 1; j++) {
-			if (shapes[j].getSize().y > shapes[j + 1].getSize().y) {
-				sf::Vector2f change = shapes[j].getPosition();
-				std::swap(shapes[j], shapes[j + 1]);
-				shapes[j+1].setPosition(shapes[j].getPosition());
-				shapes[j].setPosition(change);
-			}
-		}
-	} */
-
 	for (sf::RectangleShape meta : this->shapes) {
 		std::cout << "X: " << meta.getPosition().x << " Y: " << meta.getSize().y << std::endl;
 	}

@@ -50,6 +50,9 @@ void Engine::switcher()
     case 1:
         this->initWindow();
         this->gameLoop();
+        this->bubbleSort.bubbleSortingFunction();
+        this->initWindow();
+        this->gameLoop();
         break;
     case 2:
         std::cout << choice;
@@ -110,9 +113,9 @@ Engine::Engine()
     this->initVariables();
     this->makeDecision();
     this->switcher();
-    this->bubbleSort.bubbleSortingFunction();
-    this->initWindow();
-    this->gameLoop();
+    //this->bubbleSort.bubbleSortingFunction();
+    //this->initWindow();
+    //this->gameLoop();
 }
 
 Engine::~Engine()
