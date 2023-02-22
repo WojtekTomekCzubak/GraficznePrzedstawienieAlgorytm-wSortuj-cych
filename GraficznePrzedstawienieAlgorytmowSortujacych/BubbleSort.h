@@ -7,7 +7,6 @@
 
 class BubbleSort{
 private:
-	int random;
 
 	sf::RectangleShape shape;
 	std::vector<sf::RectangleShape> shapes;
@@ -15,6 +14,8 @@ private:
 	//Private functions
 	void initVariables();
 	void initShapes();
+	float randomXPos();
+	bool checkXPos(float random);
 
 public:
 	BubbleSort();
@@ -22,6 +23,5 @@ public:
 
 	//Private funcition
 	void bubbleSortingFunction();
-	void update();
 	void render(sf::RenderTarget& target);
 };

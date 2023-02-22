@@ -48,9 +48,11 @@ void Engine::switcher()
     
     switch (this->choice) {
     case 1:
+        std::cout << std::endl << "Zamknij okno aby posortowac dane!" << std::endl;
         this->initWindow();
         this->gameLoop();
         this->bubbleSort.bubbleSortingFunction();
+        std::cout << std::endl << "Gotowe!" << std::endl;
         this->initWindow();
         this->gameLoop();
         break;
@@ -91,7 +93,6 @@ void Engine::updatePollEvents()
 
     while (this->window->pollEvent(e)) {
         if (e.type == sf::Event::Closed) this->window->close();
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) this->window->close();
     }
 }
 
@@ -113,9 +114,6 @@ Engine::Engine()
     this->initVariables();
     this->makeDecision();
     this->switcher();
-    //this->bubbleSort.bubbleSortingFunction();
-    //this->initWindow();
-    //this->gameLoop();
 }
 
 Engine::~Engine()
