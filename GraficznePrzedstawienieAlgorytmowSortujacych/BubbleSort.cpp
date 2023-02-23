@@ -10,8 +10,8 @@ void BubbleSort::initShapes()
 {
 	for (int i = 0; i < 30; i ++) {
 		sf::RectangleShape shape;
-		shape.setSize(sf::Vector2f(20, 20 + (i*10)));
-		shape.setPosition(sf::Vector2f(/*Tutaj dodac randomy x i sprawdzenie czy takie wspolrzedne juz sa*/ randomXPos(), 600 - shape.getSize().y));
+		shape.setSize(sf::Vector2f(20, randomYSize()));
+		shape.setPosition(sf::Vector2f(i*20, 600 - shape.getSize().y));
 		this->shapes.push_back(shape);
 	}
 }
@@ -41,6 +41,26 @@ bool BubbleSort::checkXPos(float random)
 	return false;
 }
 
+float BubbleSort::randomYSize()
+{
+	float random = (rand()%30 + 2) * 20;
+
+	if (checkYSize(random) == true) return this->randomYSize();
+	else return random;
+}
+
+bool BubbleSort::checkYSize(float random)
+{
+	for (sf::RectangleShape s : this->shapes) {
+		if (s.getSize().y == random) {
+			return true;
+			break;
+		}
+	}
+
+	return false;
+}
+
 //Cons / Des
 BubbleSort::BubbleSort()
 {
@@ -55,28 +75,18 @@ BubbleSort::~BubbleSort()
 //Public functions
 void BubbleSort::bubbleSortingFunction()
 {
-	/*
-	for (sf::RectangleShape meta : this->shapes) {
-		std::cout << "X: " << meta.getPosition().x << " Y: " << meta.getSize().y << std::endl;
-	}
-	*/
-
-	for (int i = 0; i < shapes.size(); i++) {
-		for (int j = 0; j < shapes.size() - 1; j++) {
-			if (shapes[j].getSize().y < shapes[j + 1].getSize().y && shapes[j].getPosition().x < shapes[j+1].getPosition().x) {
-				float changeX = shapes[j + 1].getPosition().x;
-				shapes[j + 1].setPosition(shapes[j].getPosition().x, shapes[j+1].getPosition().y);
-				shapes[j].setPosition(changeX, shapes[j].getPosition().y);
+	for (int i = 0; i < shapes.size() - 1; i++) {
+		for (int j = 0; j < shapes.size() - i - 1; j++) {
+			if (shapes[j].getSize().y > shapes[j + 1].getSize().y && shapes[j].getPosition().x < shapes[j + 1].getPosition().x) {
+				float changeSizeY = shapes[j].getSize().y;
+				shapes[j].setSize(sf::Vector2f(shapes[j].getSize().x, shapes[j + 1].getSize().y));
+				shapes[j].setPosition(sf::Vector2f(shapes[j].getPosition().x, 600 - shapes[j].getSize().y));
+				shapes[j + 1].setSize(sf::Vector2f(shapes[j + 1].getSize().x, changeSizeY));
+				shapes[j + 1].setPosition(sf::Vector2f(shapes[j + 1].getPosition().x, 600 - shapes[j + 1].getSize().y));
 			}
-			
+
 		}
 	}
-
-	/*
-	for (sf::RectangleShape meta : this->shapes) {
-		std::cout << "X: " << meta.getPosition().x << " Y: " << meta.getSize().y << std::endl;
-	}
-	*/
 }
 
 void BubbleSort::render(sf::RenderTarget& target)

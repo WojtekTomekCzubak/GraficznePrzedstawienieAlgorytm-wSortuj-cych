@@ -16,6 +16,8 @@ private:
 	void initShapes();
 	float randomXPos();
 	bool checkXPos(float random);
+	float randomYSize();
+	bool checkYSize(float random);
 
 public:
 	BubbleSort();
