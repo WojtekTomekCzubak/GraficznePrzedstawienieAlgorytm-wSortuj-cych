@@ -131,12 +131,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BubbleSort.cpp" />
+    <ClCompile Include="CombSort.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="ExampleData.cpp" />
     <ClCompile Include="GraficznePrzedstawienieAlgorytmowSortujacych.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BubbleSort.h" />
+    <ClInclude Include="CombSort.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="ExampleData.h" />
   </ItemGroup>

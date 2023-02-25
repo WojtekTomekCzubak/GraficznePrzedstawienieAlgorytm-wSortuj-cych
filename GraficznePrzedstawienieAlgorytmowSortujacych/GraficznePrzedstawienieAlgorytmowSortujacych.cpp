@@ -8,5 +8,3 @@ int main()
 
     return 0;
 }
-
-//Dodanie nowej klasy z której klasy dziedziczące będą pobierać tablicę vectorową danych graficznych.

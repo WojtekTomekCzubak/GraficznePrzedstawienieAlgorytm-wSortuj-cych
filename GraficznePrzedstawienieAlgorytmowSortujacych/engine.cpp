@@ -13,6 +13,7 @@ void Engine::initVariables()
     this->choice = 0;
     this->window = nullptr;
     this->bubbleSort = nullptr;
+    this->combSort = nullptr;
 }
 
 void Engine::makeDecision()
@@ -53,19 +54,39 @@ void Engine::switcher()
         delete this->bubbleSort;
         break;
     case 2:
-        std::cout << choice;
+        this->initWindow();
+        this->initCombSort();
+        //this->combSort->combSortFunction(*this->window);
+        this->gameLoop(2);
+        delete this->combSort;
         break;
     case 3:
-        std::cout << choice;
+      /*this->initWindow();
+        this->initCombSort();
+        this->combSort->combSortFunction(*this->window);
+        this->gameLoop(2);
+        delete this->combSort;*/
         break;
     case 4:
-        std::cout << choice;
+        /*this->initWindow();
+        this->initCombSort();
+        this->combSort->combSortFunction(*this->window);
+        this->gameLoop(2);
+        delete this->combSort;*/
         break;
     case 5:
-        std::cout << choice;
+        /*this->initWindow();
+        this->initCombSort();
+        this->combSort->combSortFunction(*this->window);
+        this->gameLoop(2);
+        delete this->combSort;*/
         break;
     case 6:
-        std::cout << choice;
+        /*this->initWindow();
+        this->initCombSort();
+        this->combSort->combSortFunction(*this->window);
+        this->gameLoop(2);
+        delete this->combSort;*/
         break;
     }
 }
@@ -125,6 +146,19 @@ void Engine::initBubbleSort()
     }
 }
 
+void Engine::initCombSort()
+{
+    /*
+    * @return void.
+    *
+    * Initialize CombSort class.
+    */
+
+    if (combSort == nullptr) {
+        this->combSort = new CombSort();
+    }
+}
+
 //Cons / Des
 Engine::Engine()
 {
@@ -166,11 +200,16 @@ void Engine::render(int choose)
 
     switch (choose)
     {
-    case 0:
-        break;
     case 1:   
         this->bubbleSort->render(*this->window);
+        break;
+    case 2:
+        this->combSort->render(*this->window);
+        break;
+    default:
+        break;
     }
+
 
     this->window->display();
 }
