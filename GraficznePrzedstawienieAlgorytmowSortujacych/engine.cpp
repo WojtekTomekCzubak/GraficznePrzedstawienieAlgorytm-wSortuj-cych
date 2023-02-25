@@ -56,7 +56,7 @@ void Engine::switcher()
     case 2:
         this->initWindow();
         this->initCombSort();
-        //this->combSort->combSortFunction(*this->window);
+        this->combSort->combSortingFunction(*this->window);
         this->gameLoop(2);
         delete this->combSort;
         break;
@@ -101,7 +101,7 @@ void Engine::initWindow()
     */
 
     this->window = new sf::RenderWindow(sf::VideoMode(1000, 1000), "Graficzne przedstawienie algorytmow sortujacych", sf::Style::Close | sf::Style::Titlebar);
-    this->window->setFramerateLimit(190);
+    this->window->setFramerateLimit(144); // 21 combsort 190 bubble sort
 }
 
 void Engine::updatePollEvents()
@@ -142,7 +142,7 @@ void Engine::initBubbleSort()
     */
 
     if (bubbleSort == nullptr) {
-        this->bubbleSort = new BubbleSort();
+        this->bubbleSort = new BubbleSort(*this->window);
     }
 }
 
@@ -155,7 +155,7 @@ void Engine::initCombSort()
     */
 
     if (combSort == nullptr) {
-        this->combSort = new CombSort();
+        this->combSort = new CombSort(*this->window);
     }
 }
 

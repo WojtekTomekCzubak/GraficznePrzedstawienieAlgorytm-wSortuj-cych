@@ -24,9 +24,10 @@ void BubbleSort::initShapes()
 }
 
 //Cons / Des
-BubbleSort::BubbleSort()
+BubbleSort::BubbleSort(sf::RenderWindow& window)
 {
 	this->initVariables();
+	window.setFramerateLimit(160);
 }
 
 BubbleSort::~BubbleSort()

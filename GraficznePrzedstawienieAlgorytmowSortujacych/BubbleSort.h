@@ -13,7 +13,7 @@ private:
 	void initShapes();
 
 public:
-	BubbleSort();
+	BubbleSort(sf::RenderWindow& window);
 	virtual ~BubbleSort();
 
 	//Private funcition

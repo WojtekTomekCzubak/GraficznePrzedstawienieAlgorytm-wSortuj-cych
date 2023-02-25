@@ -15,7 +15,7 @@ private:
 
 public:
 	//Public variables
-	CombSort();
+	CombSort(sf::RenderWindow& window);
 
 	//Public variables
 	void combSortingFunction(sf::RenderWindow& target);
