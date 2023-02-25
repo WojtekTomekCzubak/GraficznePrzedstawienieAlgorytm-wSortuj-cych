@@ -1,29 +1,22 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
-
-#include <SFML/Graphics.hpp>
+#include "ExampleData.h"
 
 class BubbleSort{
 private:
+	ExampleData exampleData;
 
-	sf::RectangleShape shape;
 	std::vector<sf::RectangleShape> shapes;
 
 	//Private functions
 	void initVariables();
 	void initShapes();
-	float randomXPos();
-	bool checkXPos(float random);
-	float randomYSize();
-	bool checkYSize(float random);
 
 public:
 	BubbleSort();
 	virtual ~BubbleSort();
 
 	//Private funcition
-	void bubbleSortingFunction();
+	void bubbleSortingFunction(sf::RenderWindow& target); //sf::RenderWindow& u¿yte zosta³o aby móc u¿yæ funkcji jako funkcji wyœwietlaj¹cej dane w aplikacji okienkowej.
 	void render(sf::RenderTarget& target);
 };

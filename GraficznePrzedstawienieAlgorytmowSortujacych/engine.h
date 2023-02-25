@@ -11,9 +11,9 @@ class Engine
 	*/
 
 private:
-	BubbleSort bubbleSort;
+	BubbleSort* bubbleSort; //Pointer do obiektu klasy BubbleSort aby móc zainicjalizowaæ go jako nullptr.
 
-	int choice;
+	int choice; //Zmienna s³u¿¹ca do wyboru algorytmu.
 
 	sf::RenderWindow *window;
 
@@ -23,13 +23,15 @@ private:
 	void switcher();
 	void initWindow();
 	void updatePollEvents();
-	void gameLoop();
+	void gameLoop(int choose);
+	
 
 public:
 	Engine();
 	virtual ~Engine();
 
+	void initBubbleSort(); //Funckja inicjalizuj¹ca klasê BubbleSort ze wzglêdu na optymalizacje i wczeœniejsze zainicjalizowanie jako nullptr.
 	void update();
-	void render();
+	void render(int choose);
 };
 

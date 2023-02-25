@@ -8,11 +8,11 @@ void Engine::initVariables()
         @return void.
 
         Initlize variables for better performance.
-        Zainicjalizowana.
     */
 
     this->choice = 0;
     this->window = nullptr;
+    this->bubbleSort = nullptr;
 }
 
 void Engine::makeDecision()
@@ -21,7 +21,6 @@ void Engine::makeDecision()
         @return int.
 
         Decision maker for user which sort algorythm he want to use.
-        Zainicjalizowana.
     */
 
     std::cout << "Witaj w programie do graficznego przedstawiania algorytmow!" << std::endl
@@ -43,18 +42,15 @@ void Engine::switcher()
         @return void.
 
         Trigger this sorting algorithm which user picked.
-        Zainicjalizowana.
     */
     
     switch (this->choice) {
     case 1:
-        std::cout << std::endl << "Zamknij okno aby posortowac dane!" << std::endl;
         this->initWindow();
-        this->gameLoop();
-        this->bubbleSort.bubbleSortingFunction();
-        std::cout << std::endl << "Gotowe!" << std::endl;
-        this->initWindow();
-        this->gameLoop();
+        this->initBubbleSort();
+        this->bubbleSort->bubbleSortingFunction(*this->window);
+        this->gameLoop(1);
+        delete this->bubbleSort;
         break;
     case 2:
         std::cout << choice;
@@ -80,15 +76,21 @@ void Engine::initWindow()
     * @return void.
     * 
     * Initlizing window.
-    * Niezainicjalizowana.
+    * Framerate set at 190 bcs of problems with rendering.
     */
 
-    this->window = new sf::RenderWindow(sf::VideoMode(600, 600), "Graficzne przedstawienie algorytmow sortujacych", sf::Style::Close | sf::Style::Titlebar);
-    this->window->setFramerateLimit(144);
+    this->window = new sf::RenderWindow(sf::VideoMode(1000, 1000), "Graficzne przedstawienie algorytmow sortujacych", sf::Style::Close | sf::Style::Titlebar);
+    this->window->setFramerateLimit(190);
 }
 
 void Engine::updatePollEvents()
 {
+    /*
+    * @return void.
+    * 
+    * Function close window if user click "Close" button.
+    */
+
     sf::Event e;
 
     while (this->window->pollEvent(e)) {
@@ -96,11 +98,30 @@ void Engine::updatePollEvents()
     }
 }
 
-void Engine::gameLoop()
+void Engine::gameLoop(int choose)
 {
+    /*
+    * @return void.
+    * 
+    * Game loop.
+    */
+
     while (this->window->isOpen()) {
         this->update();
-        this->render();
+        this->render(choose);
+    }
+}
+
+void Engine::initBubbleSort()
+{
+    /*
+    * @return void.
+    * 
+    * Initialize BubbleSort class.
+    */
+
+    if (bubbleSort == nullptr) {
+        this->bubbleSort = new BubbleSort();
     }
 }
 
@@ -135,7 +156,7 @@ void Engine::update()
     this->updatePollEvents();
 }
 
-void Engine::render()
+void Engine::render(int choose)
 {
     /*
         Zainicjalizowana.
@@ -143,7 +164,13 @@ void Engine::render()
 
     this->window->clear();
 
-    this->bubbleSort.render(*this->window);
+    switch (choose)
+    {
+    case 0:
+        break;
+    case 1:   
+        this->bubbleSort->render(*this->window);
+    }
 
     this->window->display();
 }
