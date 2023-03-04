@@ -13,7 +13,6 @@ void CombSort::initShapes()
 CombSort::CombSort(sf::RenderWindow& window)
 {
 	this->initVariables();
-	window.setFramerateLimit(30);
 }
 
 void CombSort::combSortingFunction(sf::RenderWindow& target)

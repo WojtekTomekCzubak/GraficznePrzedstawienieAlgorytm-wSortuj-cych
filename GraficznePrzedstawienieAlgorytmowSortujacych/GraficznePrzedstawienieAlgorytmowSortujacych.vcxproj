@@ -135,12 +135,20 @@
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="ExampleData.cpp" />
     <ClCompile Include="GraficznePrzedstawienieAlgorytmowSortujacych.cpp" />
+    <ClCompile Include="InsertionSort.cpp" />
+    <ClCompile Include="QuickSort.cpp" />
+    <ClCompile Include="SelectionSort.cpp" />
+    <ClCompile Include="ShakeSort.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BubbleSort.h" />
     <ClInclude Include="CombSort.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="ExampleData.h" />
+    <ClInclude Include="InsertionSort.h" />
+    <ClInclude Include="QuickSort.h" />
+    <ClInclude Include="SelectionSort.h" />
+    <ClInclude Include="ShakeSort.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

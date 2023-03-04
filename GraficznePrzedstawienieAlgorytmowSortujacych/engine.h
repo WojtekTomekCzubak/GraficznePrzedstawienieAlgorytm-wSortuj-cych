@@ -2,6 +2,10 @@
 
 #include "BubbleSort.h"
 #include "CombSort.h"
+#include "ShakeSort.h"
+#include "InsertionSort.h"
+#include "SelectionSort.h"
+#include "QuickSort.h"
 
 #include <vector>
 
@@ -14,6 +18,10 @@ class Engine
 private:
 	BubbleSort* bubbleSort; //Pointer do obiektu klasy BubbleSort aby móc zainicjalizowaæ go jako nullptr.
 	CombSort* combSort;
+	ShakeSort* shakeSort;
+	InsertionSort* insertionSort;
+	SelectionSort* selectionSort;
+	QuickSort* quickSort;
 
 	int choice; //Zmienna s³u¿¹ca do wyboru algorytmu.
 
@@ -35,6 +43,10 @@ public:
 	//Initlization rest of the classes
 	void initBubbleSort(); //Funckja inicjalizuj¹ca klasê BubbleSort ze wzglêdu na optymalizacje i wczeœniejsze zainicjalizowanie jako nullptr.
 	void initCombSort();
+	void initShakeSort();
+	void initInsertionSort();
+	void initSelectionSort();
+	void initQuickSort();
 
 	void update();
 	void render(int choose);

@@ -14,6 +14,10 @@ void Engine::initVariables()
     this->window = nullptr;
     this->bubbleSort = nullptr;
     this->combSort = nullptr;
+    this->shakeSort = nullptr;
+    this->insertionSort = nullptr;
+    this->selectionSort = nullptr;
+    this->quickSort = nullptr;
 }
 
 void Engine::makeDecision()
@@ -61,32 +65,34 @@ void Engine::switcher()
         delete this->combSort;
         break;
     case 3:
-      /*this->initWindow();
-        this->initCombSort();
-        this->combSort->combSortFunction(*this->window);
-        this->gameLoop(2);
-        delete this->combSort;*/
+        this->initWindow();
+        this->initShakeSort();
+        this->shakeSort->shakeSortFunction(*this->window);
+        this->gameLoop(3);
+        delete this->shakeSort;
         break;
     case 4:
-        /*this->initWindow();
-        this->initCombSort();
-        this->combSort->combSortFunction(*this->window);
-        this->gameLoop(2);
-        delete this->combSort;*/
+        this->initWindow();
+        this->initInsertionSort();
+        this->insertionSort->insertionSortFunction(*this->window);
+        this->gameLoop(4);
+        delete this->insertionSort;
         break;
     case 5:
-        /*this->initWindow();
-        this->initCombSort();
-        this->combSort->combSortFunction(*this->window);
-        this->gameLoop(2);
-        delete this->combSort;*/
+        this->initWindow();
+        this->initSelectionSort();
+        this->selectionSort->selectionSortFunction(*this->window);
+        this->gameLoop(5);
+        delete this->selectionSort;
         break;
     case 6:
-        /*this->initWindow();
-        this->initCombSort();
-        this->combSort->combSortFunction(*this->window);
-        this->gameLoop(2);
-        delete this->combSort;*/
+        this->initWindow();
+        this->initQuickSort();
+        this->quickSort->initQuickSortFunction(*this->window);
+        this->gameLoop(6);
+        delete this->quickSort;
+        break;
+    default:
         break;
     }
 }
@@ -101,7 +107,6 @@ void Engine::initWindow()
     */
 
     this->window = new sf::RenderWindow(sf::VideoMode(1000, 1000), "Graficzne przedstawienie algorytmow sortujacych", sf::Style::Close | sf::Style::Titlebar);
-    this->window->setFramerateLimit(144); // 21 combsort 190 bubble sort
 }
 
 void Engine::updatePollEvents()
@@ -159,6 +164,28 @@ void Engine::initCombSort()
     }
 }
 
+void Engine::initShakeSort()
+{
+    if (this->shakeSort == nullptr) this->shakeSort = new ShakeSort(*this->window);
+    
+}
+
+void Engine::initInsertionSort()
+{
+    if (insertionSort == nullptr)
+        this->insertionSort = new InsertionSort(*this->window);
+}
+
+void Engine::initSelectionSort()
+{
+    if (this->selectionSort == nullptr) this->selectionSort = new SelectionSort(*this->window);
+}
+
+void Engine::initQuickSort()
+{
+    if (this->quickSort == nullptr) this->quickSort = new QuickSort(*this->window);
+}
+
 //Cons / Des
 Engine::Engine()
 {
@@ -205,6 +232,18 @@ void Engine::render(int choose)
         break;
     case 2:
         this->combSort->render(*this->window);
+        break;
+    case 3:
+        this->shakeSort->render(*this->window);
+        break;
+    case 4:
+        this->insertionSort->render(*this->window);
+        break;
+    case 5:
+        this->selectionSort->render(*this->window);
+        break;
+    case 6:
+        this->quickSort->render(*this->window);
         break;
     default:
         break;
