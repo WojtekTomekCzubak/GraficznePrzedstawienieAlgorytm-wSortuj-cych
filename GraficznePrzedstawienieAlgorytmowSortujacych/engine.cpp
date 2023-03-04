@@ -39,6 +39,8 @@ void Engine::makeDecision()
 
     std::cout << "Type the number of your choice: ";
     std::cin >> this->choice;
+
+    this->switcher();
 }
 
 void Engine::switcher()
@@ -55,42 +57,48 @@ void Engine::switcher()
         this->initBubbleSort();
         this->bubbleSort->bubbleSortingFunction(*this->window);
         this->gameLoop(1);
-        delete this->bubbleSort;
+        this->bubbleSort = nullptr;
+        this->makeDecision();
         break;
     case 2:
         this->initWindow();
         this->initCombSort();
         this->combSort->combSortingFunction(*this->window);
         this->gameLoop(2);
-        delete this->combSort;
+        this->combSort = nullptr;
+        this->makeDecision();
         break;
     case 3:
         this->initWindow();
         this->initShakeSort();
         this->shakeSort->shakeSortFunction(*this->window);
         this->gameLoop(3);
-        delete this->shakeSort;
+        this->shakeSort = nullptr;
+        this->makeDecision();
         break;
     case 4:
         this->initWindow();
         this->initInsertionSort();
         this->insertionSort->insertionSortFunction(*this->window);
         this->gameLoop(4);
-        delete this->insertionSort;
+        this->insertionSort = nullptr;
+        this->makeDecision();
         break;
     case 5:
         this->initWindow();
         this->initSelectionSort();
         this->selectionSort->selectionSortFunction(*this->window);
         this->gameLoop(5);
-        delete this->selectionSort;
+        this->selectionSort = nullptr;
+        this->makeDecision();
         break;
     case 6:
         this->initWindow();
         this->initQuickSort();
         this->quickSort->initQuickSortFunction(*this->window);
         this->gameLoop(6);
-        delete this->quickSort;
+        this->quickSort = nullptr;
+        this->makeDecision();
         break;
     default:
         break;
@@ -195,7 +203,6 @@ Engine::Engine()
 
     this->initVariables();
     this->makeDecision();
-    this->switcher();
 }
 
 Engine::~Engine()
