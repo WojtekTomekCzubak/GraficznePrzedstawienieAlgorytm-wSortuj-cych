@@ -18,6 +18,7 @@ void Engine::initVariables()
     this->insertionSort = nullptr;
     this->selectionSort = nullptr;
     this->quickSort = nullptr;
+    this->shellSort = nullptr;
 }
 
 void Engine::makeDecision()
@@ -35,7 +36,8 @@ void Engine::makeDecision()
         << "3. ShakeSort" << std::endl
         << "4. InsertionSort" << std::endl
         << "5. SelectionSort" << std::endl
-        << "6. QucikSort" << std::endl;
+        << "6. QucikSort" << std::endl
+        << "7. ShellSort" << std::endl;
 
     std::cout << "Type the number of your choice: ";
     std::cin >> this->choice;
@@ -100,6 +102,14 @@ void Engine::switcher()
         this->quickSort = nullptr;
         this->makeDecision();
         break;
+    case 7:
+        this->initWindow();
+        this->initShellSort();
+        this->shellSort->shellSortFunction(*this->window);
+        this->gameLoop(7);
+        this->shellSort = nullptr;
+        this->makeDecision();
+        break;
     default:
         break;
     }
@@ -154,9 +164,8 @@ void Engine::initBubbleSort()
     * Initialize BubbleSort class.
     */
 
-    if (bubbleSort == nullptr) {
-        this->bubbleSort = new BubbleSort(*this->window);
-    }
+    if (bubbleSort == nullptr) this->bubbleSort = new BubbleSort(*this->window);
+    
 }
 
 void Engine::initCombSort()
@@ -167,9 +176,8 @@ void Engine::initCombSort()
     * Initialize CombSort class.
     */
 
-    if (combSort == nullptr) {
-        this->combSort = new CombSort(*this->window);
-    }
+    if (combSort == nullptr) this->combSort = new CombSort(*this->window);
+    
 }
 
 void Engine::initShakeSort()
@@ -180,8 +188,7 @@ void Engine::initShakeSort()
 
 void Engine::initInsertionSort()
 {
-    if (insertionSort == nullptr)
-        this->insertionSort = new InsertionSort(*this->window);
+    if (insertionSort == nullptr) this->insertionSort = new InsertionSort(*this->window);
 }
 
 void Engine::initSelectionSort()
@@ -192,6 +199,11 @@ void Engine::initSelectionSort()
 void Engine::initQuickSort()
 {
     if (this->quickSort == nullptr) this->quickSort = new QuickSort(*this->window);
+}
+
+void Engine::initShellSort()
+{
+    if (this->shellSort == nullptr) this->shellSort = new ShellSort();
 }
 
 //Cons / Des
@@ -234,7 +246,7 @@ void Engine::render(int choose)
 
     switch (choose)
     {
-    case 1:   
+    case 1:
         this->bubbleSort->render(*this->window);
         break;
     case 2:
@@ -252,10 +264,11 @@ void Engine::render(int choose)
     case 6:
         this->quickSort->render(*this->window);
         break;
+    case 7:
+        this->shellSort->render(*this->window);
     default:
         break;
     }
-
 
     this->window->display();
 }
