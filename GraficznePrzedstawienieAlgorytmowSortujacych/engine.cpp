@@ -143,7 +143,7 @@ void Engine::initWindow()
     */
 
     this->window = new sf::RenderWindow(sf::VideoMode(1000, 1000), "Graficzne przedstawienie algorytmow sortujacych", sf::Style::Close | sf::Style::Titlebar);
-    window->setFramerateLimit(60);
+    this->window->setFramerateLimit(20);
 }
 
 void Engine::updatePollEvents()

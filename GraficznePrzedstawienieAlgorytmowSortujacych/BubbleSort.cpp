@@ -45,16 +45,23 @@ void BubbleSort::bubbleSortingFunction(sf::RenderWindow& target)
 	* This two shapes which are moving are filled with red color and after its move again filled with white color.
 	*/
 
-	for (int i = 0; i < shapes.size() - 1; i++) {
-		for (int j = 0; j < shapes.size() - i - 1; j++) {
-			if (shapes[j].getSize().y > shapes[j + 1].getSize().y && shapes[j].getPosition().x < shapes[j + 1].getPosition().x) {
-				float changeSizeY = shapes[j].getSize().y;
+	//----------GOOD CODE----------
+	for (int i = 0; i < shapes.size() - 1; i++)
+	{
+		for (int j = 0; j < shapes.size() - i - 1; j++)
+		{
+			if (shapes[j].getSize().y > shapes[j + 1].getSize().y && shapes[j].getPosition().x < shapes[j + 1].getPosition().x) 
+			{
 				shapes[j].setFillColor(sf::Color::Red);
 				shapes[j + 1].setFillColor(sf::Color::Red);
+
+				float changeSizeY = shapes[j].getSize().y;
+				
 				shapes[j].setSize(sf::Vector2f(shapes[j].getSize().x, shapes[j + 1].getSize().y));
 				shapes[j].setPosition(sf::Vector2f(shapes[j].getPosition().x, 1000 - shapes[j].getSize().y));
 				shapes[j + 1].setSize(sf::Vector2f(shapes[j + 1].getSize().x, changeSizeY));
 				shapes[j + 1].setPosition(sf::Vector2f(shapes[j + 1].getPosition().x, 1000 - shapes[j + 1].getSize().y));
+
 
 				target.clear();
 
@@ -64,11 +71,23 @@ void BubbleSort::bubbleSortingFunction(sf::RenderWindow& target)
 
 				target.display();
 
+				//sf::sleep(sf::milliseconds(10)); nie dziala
+				//std::system("pause") / std::system("sleep 1") nie dziala
+				//sf::sleep(sf::seconds(0.2));
+				/* const sf::Time freezeLength(sf::milliseconds(100.f));
+				sf::Clock freezeClock;
+				while (freezeClock.getElapsedTime() < freezeLength) {
+					nie dziala xD
+				} */
+
 				shapes[j].setFillColor(sf::Color::White);
 				shapes[j + 1].setFillColor(sf::Color::White);
 			}
+
+			
 		}
 	}
+	//----------GOOD CODE----------
 }
 
 void BubbleSort::render(sf::RenderTarget& target)
