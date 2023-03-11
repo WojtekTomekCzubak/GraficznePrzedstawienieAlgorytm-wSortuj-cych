@@ -19,6 +19,8 @@ void Engine::initVariables()
     this->selectionSort = nullptr;
     this->quickSort = nullptr;
     this->shellSort = nullptr;
+    this->heapSort = nullptr;
+    this->mergeSort = nullptr;
 }
 
 void Engine::makeDecision()
@@ -37,7 +39,9 @@ void Engine::makeDecision()
         << "4. InsertionSort" << std::endl
         << "5. SelectionSort" << std::endl
         << "6. QucikSort" << std::endl
-        << "7. ShellSort" << std::endl;
+        << "7. ShellSort" << std::endl
+        << "8. HeapSort" << std::endl
+        << "9. MergeSort" << std::endl;
 
     std::cout << "Type the number of your choice: ";
     std::cin >> this->choice;
@@ -110,6 +114,20 @@ void Engine::switcher()
         this->shellSort = nullptr;
         this->makeDecision();
         break;
+    case 8:
+        this->initWindow();
+        this->initHeapSort();
+        this->heapSort->heapSortFunction(*this->window);
+        this->gameLoop(8);
+        this->heapSort = nullptr;
+        this->makeDecision();
+    case 9:
+        this->initWindow();
+        this->initMergeSort();
+        this->mergeSort->mergeSortFunction(*this->window);
+        this->gameLoop(9);
+        this->mergeSort = nullptr;
+        this->makeDecision();
     default:
         break;
     }
@@ -125,6 +143,7 @@ void Engine::initWindow()
     */
 
     this->window = new sf::RenderWindow(sf::VideoMode(1000, 1000), "Graficzne przedstawienie algorytmow sortujacych", sf::Style::Close | sf::Style::Titlebar);
+    window->setFramerateLimit(60);
 }
 
 void Engine::updatePollEvents()
@@ -206,6 +225,16 @@ void Engine::initShellSort()
     if (this->shellSort == nullptr) this->shellSort = new ShellSort();
 }
 
+void Engine::initHeapSort()
+{
+    if (this->heapSort == nullptr) this->heapSort = new HeapSort();
+}
+
+void Engine::initMergeSort()
+{
+    if (this->mergeSort == nullptr) this->mergeSort = new MergeSort();
+}
+
 //Cons / Des
 Engine::Engine()
 {
@@ -266,6 +295,11 @@ void Engine::render(int choose)
         break;
     case 7:
         this->shellSort->render(*this->window);
+    case 8:
+        this->heapSort->render(*this->window);
+        break;
+    case 9:
+        this->mergeSort->render(*this->window);
     default:
         break;
     }

@@ -7,6 +7,8 @@
 #include "SelectionSort.h"
 #include "QuickSort.h"
 #include "ShellSort.h"
+#include "HeapSort.h"
+#include "MergeSort.h"
 
 #include <vector>
 
@@ -24,6 +26,8 @@ private:
 	SelectionSort* selectionSort;
 	QuickSort* quickSort;
 	ShellSort* shellSort;
+	HeapSort* heapSort;
+	MergeSort* mergeSort;
 
 	int choice; //Zmienna s³u¿¹ca do wyboru algorytmu.
 
@@ -50,6 +54,8 @@ public:
 	void initSelectionSort();
 	void initQuickSort();
 	void initShellSort();
+	void initHeapSort();
+	void initMergeSort();
 
 	void update();
 	void render(int choose);
