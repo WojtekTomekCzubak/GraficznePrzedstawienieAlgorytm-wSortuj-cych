@@ -1,32 +1,12 @@
 #pragma once
 
-#include "ExampleData.h"
+#include "SortAlgorithm.h"
 
-class ShakeSort
+class ShakeSort : public SortAlgorithm
 {
-private:
-	//Private variables
-	ExampleData exampleData;
-
-	std::vector<sf::RectangleShape> shapes;
-
-	int bottom;
-	int top;
-	bool replace;
-
-	//Private functions
-	void initVariables();
-	void initData();
+protected:
+	void sort() override;
 
 public:
-	//Public variables
-
-	//Public functions
-	ShakeSort(sf::RenderWindow& window);
-	virtual ~ShakeSort();
-
-	void shakeSortFunction(sf::RenderWindow& target);
-
-	void render(sf::RenderTarget& target);
+	ShakeSort();
 };
-

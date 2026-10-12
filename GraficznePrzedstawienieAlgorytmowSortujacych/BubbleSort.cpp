@@ -1,104 +1,33 @@
 #include "BubbleSort.h"
 
-//Private functions
-void BubbleSort::initVariables()
+//Cons / Des
+BubbleSort::BubbleSort()
+	: SortAlgorithm("BubbleSort")
 {
-	/*
-	* @return void
-	* 
-	* Initlization for every variable in BubbleSort class.
-	*/
-
-	this->initShapes();
 }
 
-void BubbleSort::initShapes()
+//Protected functions
+void BubbleSort::sort()
 {
 	/*
 	* @return void.
 	*
-	* Initlization of graphic data with random height.
+	* Function that use bubbleSort algorithm to sort graphic data with its height.
+	* Neighbouring bars are compared and swapped if the left one is higher, so after every pass
+	* the highest bar from unsorted part goes to the end.
+	* If there was no swap in the whole pass, data is already sorted.
 	*/
 
-	this->shapes = this->exampleData.dataAccess();
-}
+	for (int i = 0; i < this->size() - 1; i++) {
+		bool replace = false;
 
-//Cons / Des
-BubbleSort::BubbleSort(sf::RenderWindow& window)
-{
-	this->initVariables();
-}
-
-BubbleSort::~BubbleSort()
-{
-
-}
-
-//Public functions
-void BubbleSort::bubbleSortingFunction(sf::RenderWindow& target)
-{
-	/*
-	* @return void.
-	* 
-	* Function that use bubbleSort alghorithm to sort graphic data with its height.
-	* In this function we clear, render and draw whole vector of sf::RectangleShape.
-	* This two shapes which are moving are filled with red color and after its move again filled with white color.
-	*/
-
-	//----------GOOD CODE----------
-	for (int i = 0; i < shapes.size() - 1; i++)
-	{
-		for (int j = 0; j < shapes.size() - i - 1; j++)
-		{
-			if (shapes[j].getSize().y > shapes[j + 1].getSize().y && shapes[j].getPosition().x < shapes[j + 1].getPosition().x) 
-			{
-				shapes[j].setFillColor(sf::Color::Red);
-				shapes[j + 1].setFillColor(sf::Color::Red);
-
-				float changeSizeY = shapes[j].getSize().y;
-				
-				shapes[j].setSize(sf::Vector2f(shapes[j].getSize().x, shapes[j + 1].getSize().y));
-				shapes[j].setPosition(sf::Vector2f(shapes[j].getPosition().x, 1000 - shapes[j].getSize().y));
-				shapes[j + 1].setSize(sf::Vector2f(shapes[j + 1].getSize().x, changeSizeY));
-				shapes[j + 1].setPosition(sf::Vector2f(shapes[j + 1].getPosition().x, 1000 - shapes[j + 1].getSize().y));
-
-
-				target.clear();
-
-				for (sf::RectangleShape& shape : shapes) {
-					target.draw(shape);
-				}
-
-				target.display();
-
-				//sf::sleep(sf::milliseconds(10)); nie dziala
-				//std::system("pause") / std::system("sleep 1") nie dziala
-				//sf::sleep(sf::seconds(0.2));
-				/* const sf::Time freezeLength(sf::milliseconds(100.f));
-				sf::Clock freezeClock;
-				while (freezeClock.getElapsedTime() < freezeLength) {
-					nie dziala xD
-				} */
-
-				shapes[j].setFillColor(sf::Color::White);
-				shapes[j + 1].setFillColor(sf::Color::White);
+		for (int j = 0; j < this->size() - i - 1; j++) {
+			if (this->height(j) > this->height(j + 1)) {
+				this->swapBars(j, j + 1);
+				replace = true;
 			}
-
-			
 		}
+
+		if (!replace) break;
 	}
-	//----------GOOD CODE----------
-}
-
-void BubbleSort::render(sf::RenderTarget& target)
-{
-	/*
-	* @return void.
-	* 
-	* Function used to render whole vector od sf::RectangleShapes.
-	*/
-
-	for (auto i : this->shapes) {
-		target.draw(i);
-	} 
 }

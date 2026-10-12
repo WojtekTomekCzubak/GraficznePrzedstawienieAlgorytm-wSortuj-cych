@@ -1,115 +1,70 @@
 #include "MergeSort.h"
 
-void MergeSort::initData()
+//Private functions
+void MergeSort::mergeSort(int left, int right)
 {
-	this->shapes = this->exampleData.dataAccess();
-}
+	/*
+	* @return void.
+	*
+	* Divides data into two halves, sorts both of them (recursion) and merges them together.
+	*/
 
-void MergeSort::initVariables()
-{
-	this->initData();
-}
-
-void MergeSort::mergeSort(std::vector<sf::RectangleShape>& arr, int left, int right, sf::RenderWindow& window)
-{
 	if (left < right) {
-		int middle = (left + right - 1) / 2;
+		int middle = left + (right - left) / 2;
 
-		mergeSort(arr, left, middle, window);
-		mergeSort(arr, middle + 1, right, window);
+		this->mergeSort(left, middle);
+		this->mergeSort(middle + 1, right);
 
-		merge(arr, left, middle, right, window);
+		this->merge(left, middle, right);
 	}
 }
 
-void MergeSort::merge(std::vector<sf::RectangleShape>& arr, int left, int middle, int right, sf::RenderWindow& window)
+void MergeSort::merge(int left, int middle, int right)
 {
-	int n1 = middle - left + 1;
-	int n2 = right - middle;
-	
-	std::vector<sf::RectangleShape> L(n1), R(n2);
+	/*
+	* @return void.
+	*
+	* Merges two sorted parts <left, middle> and <middle + 1, right> into one sorted part.
+	* Every bar put in its place is shown in red.
+	*/
 
-	for (int i = 0; i < n1; i++) {
-		L[i] = arr[left + i];
-	}
-	for (int i = 0; i < n2; i++) {
-		R[i] = arr[middle + 1 + i];
-	}
+	std::vector<float> L, R;
 
-	int i = 0, j = 0, k = left;
+	for (int i = left; i <= middle; i++) L.push_back(this->height(i));
+	for (int i = middle + 1; i <= right; i++) R.push_back(this->height(i));
 
-	while (i < n1 && j < n2)
-	{
-		if (L[i].getSize().y <= R[j].getSize().y)
-		{
-			arrSwap(arr, k, L, i);
-			drawing(arr, k, i, window);
-			i++;
-		}
+	size_t i = 0, j = 0;
+	int k = left;
 
-		else 
-		{
-			arrSwap(arr, k, R, j);
-			drawing(arr, k, j, window);
-			j++;
-		}
+	while (i < L.size() && j < R.size()) {
+		if (L[i] <= R[j]) this->setHeight(k, L[i++]);
+		else this->setHeight(k, R[j++]);
 
+		this->showStep({ k });
 		k++;
 	}
 
-	while (i < n1) 
-	{
-		arrSwap(arr, k, L, i);
-		drawing(arr, k, i, window);
-		i++;
+	while (i < L.size()) {
+		this->setHeight(k, L[i++]);
+		this->showStep({ k });
 		k++;
 	}
 
-	while (j < n2) 
-	{
-		arrSwap(arr, k, R, j);
-		drawing(arr, k, j, window);
-		j++;
+	while (j < R.size()) {
+		this->setHeight(k, R[j++]);
+		this->showStep({ k });
 		k++;
 	}
 }
 
-void MergeSort::arrSwap(std::vector<sf::RectangleShape>& arr1, int f1, std::vector<sf::RectangleShape> arr2, int f2)
-{
-	arr1[f1].setSize(sf::Vector2f(arr1[f1].getSize().x, arr2[f2].getSize().y));
-	arr1[f1].setPosition(sf::Vector2f(arr1[f1].getPosition().x, arr2[f2].getPosition().y));
-}
-
-void MergeSort::drawing(std::vector<sf::RectangleShape> s1, int i1, int i2, sf::RenderWindow& window)
-{
-	s1[i1].setFillColor(sf::Color::Red);
-	s1[i2].setFillColor(sf::Color::Red);
-
-	window.clear();
-
-	for (sf::RectangleShape s : s1) {
-		window.draw(s);
-	}
-
-	window.display();
-
-	s1[i1].setFillColor(sf::Color::White);
-	s1[i2].setFillColor(sf::Color::White);
-}
-
+//Cons / Des
 MergeSort::MergeSort()
+	: SortAlgorithm("MergeSort")
 {
-	this->initVariables();
 }
 
-void MergeSort::mergeSortFunction(sf::RenderWindow& window)
+//Protected functions
+void MergeSort::sort()
 {
-	this->mergeSort(this->shapes, 0, this->shapes.size() - 1, window);
-}
-
-void MergeSort::render(sf::RenderTarget& target)
-{
-	for (sf::RectangleShape s : this->shapes) {
-		target.draw(s);
-	}
+	this->mergeSort(0, this->size() - 1);
 }

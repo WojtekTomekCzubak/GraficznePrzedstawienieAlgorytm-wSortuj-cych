@@ -1,135 +1,68 @@
 #include "engine.h"
 
+#include <iostream>
+#include <limits>
+
 //Private functions
 
-void Engine::initVariables()
-{
-    /*
-        @return void.
-
-        Initlize variables for better performance.
-    */
-
-    this->choice = 0;
-    this->window = nullptr;
-    this->bubbleSort = nullptr;
-    this->combSort = nullptr;
-    this->shakeSort = nullptr;
-    this->insertionSort = nullptr;
-    this->selectionSort = nullptr;
-    this->quickSort = nullptr;
-    this->shellSort = nullptr;
-    this->heapSort = nullptr;
-    this->mergeSort = nullptr;
-}
-
-void Engine::makeDecision()
+int Engine::makeDecision()
 {
     /*
         @return int.
 
-        Decision maker for user which sort algorythm he want to use.
+        Decision maker for user which sort algorithm he wants to use.
     */
 
-    std::cout << "Witaj w programie do graficznego przedstawiania algorytmow!" << std::endl
+    std::cout << std::endl
+        << "Witaj w programie do graficznego przedstawiania algorytmow!" << std::endl
         << "Wybierz interesujacy ciebie algorytm:" << std::endl
         << "1. BubbleSort" << std::endl
         << "2. CombSort" << std::endl
         << "3. ShakeSort" << std::endl
         << "4. InsertionSort" << std::endl
         << "5. SelectionSort" << std::endl
-        << "6. QucikSort" << std::endl
+        << "6. QuickSort" << std::endl
         << "7. ShellSort" << std::endl
         << "8. HeapSort" << std::endl
-        << "9. MergeSort" << std::endl;
+        << "9. MergeSort" << std::endl
+        << "0. Wyjscie" << std::endl;
 
-    std::cout << "Type the number of your choice: ";
-    std::cin >> this->choice;
+    std::cout << "Wpisz numer wybranej opcji: ";
 
-    this->switcher();
+    int choice = 0;
+
+    while (!(std::cin >> choice)) {
+        if (std::cin.eof()) return 0;
+
+        //Not a number - clear the error and skip the rest of the line.
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "To nie jest liczba, sprobuj jeszcze raz: ";
+    }
+
+    return choice;
 }
 
-void Engine::switcher()
+std::unique_ptr<SortAlgorithm> Engine::createAlgorithm(int choice)
 {
     /*
-        @return void.
+        @return std::unique_ptr<SortAlgorithm>.
 
-        Trigger this sorting algorithm which user picked.
+        Creates sorting algorithm which user picked (nullptr if there is no such option).
+        unique_ptr deletes the object by itself, so there are no memory leaks.
     */
-    
-    switch (this->choice) {
-    case 1:
-        this->initWindow();
-        this->initBubbleSort();
-        this->bubbleSort->bubbleSortingFunction(*this->window);
-        this->gameLoop(1);
-        this->bubbleSort = nullptr;
-        this->makeDecision();
-        break;
-    case 2:
-        this->initWindow();
-        this->initCombSort();
-        this->combSort->combSortingFunction(*this->window);
-        this->gameLoop(2);
-        this->combSort = nullptr;
-        this->makeDecision();
-        break;
-    case 3:
-        this->initWindow();
-        this->initShakeSort();
-        this->shakeSort->shakeSortFunction(*this->window);
-        this->gameLoop(3);
-        this->shakeSort = nullptr;
-        this->makeDecision();
-        break;
-    case 4:
-        this->initWindow();
-        this->initInsertionSort();
-        this->insertionSort->insertionSortFunction(*this->window);
-        this->gameLoop(4);
-        this->insertionSort = nullptr;
-        this->makeDecision();
-        break;
-    case 5:
-        this->initWindow();
-        this->initSelectionSort();
-        this->selectionSort->selectionSortFunction(*this->window);
-        this->gameLoop(5);
-        this->selectionSort = nullptr;
-        this->makeDecision();
-        break;
-    case 6:
-        this->initWindow();
-        this->initQuickSort();
-        this->quickSort->initQuickSortFunction(*this->window);
-        this->gameLoop(6);
-        this->quickSort = nullptr;
-        this->makeDecision();
-        break;
-    case 7:
-        this->initWindow();
-        this->initShellSort();
-        this->shellSort->shellSortFunction(*this->window);
-        this->gameLoop(7);
-        this->shellSort = nullptr;
-        this->makeDecision();
-        break;
-    case 8:
-        this->initWindow();
-        this->initHeapSort();
-        this->heapSort->heapSortFunction(*this->window);
-        this->gameLoop(8);
-        this->heapSort = nullptr;
-        this->makeDecision();
-    case 9:
-        this->initWindow();
-        this->initMergeSort();
-        this->mergeSort->mergeSortFunction(*this->window);
-        this->gameLoop(9);
-        this->mergeSort = nullptr;
-        this->makeDecision();
-    default:
-        break;
+
+    switch (choice) {
+    case 1: return std::make_unique<BubbleSort>();
+    case 2: return std::make_unique<CombSort>();
+    case 3: return std::make_unique<ShakeSort>();
+    case 4: return std::make_unique<InsertionSort>();
+    case 5: return std::make_unique<SelectionSort>();
+    case 6: return std::make_unique<QuickSort>();
+    case 7: return std::make_unique<ShellSort>();
+    case 8: return std::make_unique<HeapSort>();
+    case 9: return std::make_unique<MergeSort>();
+    default: return nullptr;
     }
 }
 
@@ -137,172 +70,83 @@ void Engine::initWindow()
 {
     /*
     * @return void.
-    * 
+    *
     * Initlizing window.
-    * Framerate set at 190 bcs of problems with rendering.
     */
 
-    this->window = new sf::RenderWindow(sf::VideoMode(1000, 1000), "Graficzne przedstawienie algorytmow sortujacych", sf::Style::Close | sf::Style::Titlebar);
-    this->window->setFramerateLimit(20);
+    this->window.create(sf::VideoMode(WINDOW_SIZE, WINDOW_SIZE), "Graficzne przedstawienie algorytmow sortujacych", sf::Style::Close | sf::Style::Titlebar);
 }
 
 void Engine::updatePollEvents()
 {
     /*
     * @return void.
-    * 
-    * Function close window if user click "Close" button.
+    *
+    * Function close window if user click "Close" button or press Escape.
     */
 
     sf::Event e;
 
-    while (this->window->pollEvent(e)) {
-        if (e.type == sf::Event::Closed) this->window->close();
+    while (this->window.pollEvent(e)) {
+        if (e.type == sf::Event::Closed) this->window.close();
+        if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Escape) this->window.close();
     }
 }
 
-void Engine::gameLoop(int choose)
-{
-    /*
-    * @return void.
-    * 
-    * Game loop.
-    */
-
-    while (this->window->isOpen()) {
-        this->update();
-        this->render(choose);
-    }
-}
-
-void Engine::initBubbleSort()
-{
-    /*
-    * @return void.
-    * 
-    * Initialize BubbleSort class.
-    */
-
-    if (bubbleSort == nullptr) this->bubbleSort = new BubbleSort(*this->window);
-    
-}
-
-void Engine::initCombSort()
+void Engine::gameLoop(const SortAlgorithm& algorithm)
 {
     /*
     * @return void.
     *
-    * Initialize CombSort class.
+    * Game loop - shows sorted data until window is closed.
     */
 
-    if (combSort == nullptr) this->combSort = new CombSort(*this->window);
-    
-}
+    this->window.setFramerateLimit(60);
 
-void Engine::initShakeSort()
-{
-    if (this->shakeSort == nullptr) this->shakeSort = new ShakeSort(*this->window);
-    
-}
-
-void Engine::initInsertionSort()
-{
-    if (insertionSort == nullptr) this->insertionSort = new InsertionSort(*this->window);
-}
-
-void Engine::initSelectionSort()
-{
-    if (this->selectionSort == nullptr) this->selectionSort = new SelectionSort(*this->window);
-}
-
-void Engine::initQuickSort()
-{
-    if (this->quickSort == nullptr) this->quickSort = new QuickSort(*this->window);
-}
-
-void Engine::initShellSort()
-{
-    if (this->shellSort == nullptr) this->shellSort = new ShellSort();
-}
-
-void Engine::initHeapSort()
-{
-    if (this->heapSort == nullptr) this->heapSort = new HeapSort();
-}
-
-void Engine::initMergeSort()
-{
-    if (this->mergeSort == nullptr) this->mergeSort = new MergeSort();
-}
-
-//Cons / Des
-Engine::Engine()
-{
-	/*
-		Constructor
-	*/
-
-    this->initVariables();
-    this->makeDecision();
-}
-
-Engine::~Engine()
-{
-	/*
-		Destructor
-	*/
-
-    delete this->window;
+    while (this->window.isOpen()) {
+        this->update();
+        this->render(algorithm);
+    }
 }
 
 void Engine::update()
 {
-    
-    /*
-        Zainicjalizowana.
-    */
-
     this->updatePollEvents();
 }
 
-void Engine::render(int choose)
+void Engine::render(const SortAlgorithm& algorithm)
+{
+    this->window.clear();
+    algorithm.render(this->window);
+    this->window.display();
+}
+
+//Public functions
+
+void Engine::run()
 {
     /*
-        Zainicjalizowana.
+        @return void.
+
+        Main loop of the program: menu -> sorting animation -> menu ... until user picks 0.
     */
 
-    this->window->clear();
+    while (true) {
+        int choice = this->makeDecision();
 
-    switch (choose)
-    {
-    case 1:
-        this->bubbleSort->render(*this->window);
-        break;
-    case 2:
-        this->combSort->render(*this->window);
-        break;
-    case 3:
-        this->shakeSort->render(*this->window);
-        break;
-    case 4:
-        this->insertionSort->render(*this->window);
-        break;
-    case 5:
-        this->selectionSort->render(*this->window);
-        break;
-    case 6:
-        this->quickSort->render(*this->window);
-        break;
-    case 7:
-        this->shellSort->render(*this->window);
-    case 8:
-        this->heapSort->render(*this->window);
-        break;
-    case 9:
-        this->mergeSort->render(*this->window);
-    default:
-        break;
+        if (choice == 0) break;
+
+        std::unique_ptr<SortAlgorithm> algorithm = this->createAlgorithm(choice);
+
+        if (algorithm == nullptr) {
+            std::cout << "Nie ma takiej opcji!" << std::endl;
+            continue;
+        }
+
+        std::cout << "Sterowanie w oknie: [Gora/Dol] predkosc, [Spacja] pauza, [Esc] przerwij / powrot do menu" << std::endl;
+
+        this->initWindow();
+        algorithm->run(this->window);
+        this->gameLoop(*algorithm);
     }
-
-    this->window->display();
 }

@@ -1,27 +1,12 @@
 #pragma once
 
-#include "ExampleData.h"
+#include "SortAlgorithm.h"
 
-class SelectionSort
+class SelectionSort : public SortAlgorithm
 {
-private:
-	//Private variables
-	ExampleData exampleData;
-
-	std::vector<sf::RectangleShape> shapes;
-
-	//Private function
-	void initData();
-	void initVariables();
+protected:
+	void sort() override;
 
 public:
-	//Public variables
-
-	//Public functions
-	SelectionSort(sf::RenderWindow& window);
-
-	void selectionSortFunction(sf::RenderWindow& window);
-
-	void render(sf::RenderTarget& target);
+	SelectionSort();
 };
-

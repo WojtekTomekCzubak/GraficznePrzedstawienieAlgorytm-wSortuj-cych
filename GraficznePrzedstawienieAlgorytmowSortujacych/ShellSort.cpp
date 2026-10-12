@@ -1,21 +1,13 @@
 #include "ShellSort.h"
 
-void ShellSort::initVariables()
-{
-	this->initData();
-}
-
-void ShellSort::initData()
-{
-	this->shapes = this->exampleData.dataAccess();
-}
-
+//Cons / Des
 ShellSort::ShellSort()
+	: SortAlgorithm("ShellSort")
 {
-	this->initVariables();
 }
 
-void ShellSort::shellSortFunction(sf::RenderWindow& window)
+//Protected functions
+void ShellSort::sort()
 {
 	/*
 	for (int gap = shapes.size() / 2; gap > 0; gap /= 2) { //tworzymy int gap ktory jest roznica pomiedzy miejscami oraz sprawdzamy czy jest wiekszy niz 0
@@ -29,42 +21,21 @@ void ShellSort::shellSortFunction(sf::RenderWindow& window)
         }
     }
 	*/
-	
-	for (int gap = this->shapes.size() / 2; gap > 0; gap /= 2) {
-		for (int i = gap; i < this->shapes.size(); i++) {
-			
-			sf::Vector2f tempSizeI = this->shapes[i].getSize();
-			sf::Vector2f tempPosI = this->shapes[i].getPosition();
 
+	for (int gap = this->size() / 2; gap > 0; gap /= 2) {
+		for (int i = gap; i < this->size(); i++) {
+			float temp = this->height(i);
 			int j;
-			for (j = i; j >= gap && shapes[j - gap].getSize().y > tempSizeI.y; j -= gap) {
-				shapes[j].setSize(sf::Vector2f(shapes[j - gap].getSize().x, shapes[j - gap].getSize().y));
-				shapes[j].setPosition(sf::Vector2f(shapes[j].getPosition().x, shapes[j-gap].getPosition().y));
 
-				shapes[i].setFillColor(sf::Color::Red);
-				shapes[j].setFillColor(sf::Color::Red);
-
-				window.clear();
-
-				for (sf::RectangleShape s : this->shapes) {
-					window.draw(s);
-				}
-
-				window.display();
-
-				shapes[i].setFillColor(sf::Color::White);
-				shapes[j].setFillColor(sf::Color::White);
-
+			for (j = i; j >= gap && this->height(j - gap) > temp; j -= gap) {
+				this->setHeight(j, this->height(j - gap));
+				this->showStep({ j, j - gap });
 			}
-			shapes[j].setSize(tempSizeI);
-			shapes[j].setPosition(sf::Vector2f(shapes[j].getPosition().x, tempPosI.y));
-		}
-	}
-}
 
-void ShellSort::render(sf::RenderTarget& target)
-{
-	for (sf::RectangleShape s : this->shapes) {
-		target.draw(s);
+			if (j != i) {
+				this->setHeight(j, temp);
+				this->showStep({ j });
+			}
+		}
 	}
 }
