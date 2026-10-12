@@ -10,8 +10,7 @@
 #include "HeapSort.h"
 #include "MergeSort.h"
 
-#include <vector>
-#include <thread>
+#include <memory>
 
 class Engine
 {
@@ -20,45 +19,17 @@ class Engine
 	*/
 
 private:
-	BubbleSort* bubbleSort; //Pointer do obiektu klasy BubbleSort aby móc zainicjalizowaæ go jako nullptr.
-	CombSort* combSort;
-	ShakeSort* shakeSort;
-	InsertionSort* insertionSort;
-	SelectionSort* selectionSort;
-	QuickSort* quickSort;
-	ShellSort* shellSort;
-	HeapSort* heapSort;
-	MergeSort* mergeSort;
-
-	int choice; //Zmienna s³u¿¹ca do wyboru algorytmu.
-
-	sf::RenderWindow *window;
+	sf::RenderWindow window;
 
 	//Private functions
-	void initVariables();
-	void makeDecision();
-	void switcher();
+	int makeDecision();
+	std::unique_ptr<SortAlgorithm> createAlgorithm(int choice);
 	void initWindow();
 	void updatePollEvents();
-	void gameLoop(int choose);
-	
+	void gameLoop(const SortAlgorithm& algorithm);
+	void update();
+	void render(const SortAlgorithm& algorithm);
 
 public:
-	Engine();
-	virtual ~Engine();
-
-	//Initlization rest of the classes
-	void initBubbleSort(); //Funckja inicjalizuj¹ca klasê BubbleSort ze wzglêdu na optymalizacje i wczeœniejsze zainicjalizowanie jako nullptr.
-	void initCombSort();
-	void initShakeSort();
-	void initInsertionSort();
-	void initSelectionSort();
-	void initQuickSort();
-	void initShellSort();
-	void initHeapSort();
-	void initMergeSort();
-
-	void update();
-	void render(int choose);
+	void run();
 };
-

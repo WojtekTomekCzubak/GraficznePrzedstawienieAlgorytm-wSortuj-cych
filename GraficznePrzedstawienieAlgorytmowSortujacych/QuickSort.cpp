@@ -1,69 +1,45 @@
 #include "QuickSort.h"
 
-void QuickSort::initData()
+//Private functions
+void QuickSort::quickSortFunction(int start, int end)
 {
-	this->shapes = this->exampleData.dataAccess();
-}
+	/*
+	* @return void.
+	*
+	* Bars lower than pivot (middle bar) go to the left, higher go to the right.
+	* Then both parts are sorted the same way (recursion).
+	*/
 
-void QuickSort::initVariables()
-{
-	this->initData();
-}
-
-QuickSort::QuickSort(sf::RenderWindow& window)
-{
-	this->initVariables();;
-}
-
-void QuickSort::initQuickSortFunction(sf::RenderWindow& window)
-{
-	this->quickSortFunction(window, this->shapes, 0, this->shapes.size()-1);
-}
-
-void QuickSort::quickSortFunction(sf::RenderWindow& window, std::vector<sf::RectangleShape>& tabvec, int start, int end)
-{
 	if (start >= end) return; //Check if arguments are good.
 
-	int p = start - 1, q = end + 1; 
-	sf::Vector2f pivot = tabvec[(start + end) / 2].getSize();
+	int p = start, q = end;
+	float pivot = this->height((start + end) / 2);
 
-	while (true) {
-		while (pivot.y > this->shapes[++p].getSize().y);
-		while (pivot.y < this->shapes[--q].getSize().y);
+	//Loop ends as soon as p and q pass each other.
+	//Searching again after that went out of the vector (e.g. q = -1 for data {0, 1}).
+	while (p <= q) {
+		while (this->height(p) < pivot) p++;
+		while (this->height(q) > pivot) q--;
 
 		if (p <= q) {
-			shapes[p].setFillColor(sf::Color::Red);
-			shapes[q].setFillColor(sf::Color::Red);
-
-			sf::Vector2f changePos = tabvec[q].getPosition();
-			sf::Vector2f changeSize = tabvec[q].getSize();
-
-			tabvec[q].setSize(sf::Vector2f(tabvec[q].getSize().x, tabvec[p].getSize().y));
-			tabvec[q].setPosition(sf::Vector2f(tabvec[q].getPosition().x, tabvec[p].getPosition().y));
-
-			tabvec[p].setSize(sf::Vector2f(tabvec[p].getSize().x, changeSize.y));
-			tabvec[p].setPosition(sf::Vector2f(tabvec[p].getPosition().x, changePos.y));
-
-			window.clear();
-
-			for (sf::RectangleShape s : this->shapes) window.draw(s);
-
-			window.display();
-
-			shapes[p].setFillColor(sf::Color::White);
-			shapes[q].setFillColor(sf::Color::White);
-		}
-		else {
-			break;
+			this->swapBars(p, q);
+			p++;
+			q--;
 		}
 	}
 
-	if (q > start) this->quickSortFunction(window, tabvec, start, q);
-	if (p < end) this->quickSortFunction(window, tabvec, p, end);
+	if (q > start) this->quickSortFunction(start, q);
+	if (p < end) this->quickSortFunction(p, end);
 }
 
-void QuickSort::render(sf::RenderTarget& target)
+//Cons / Des
+QuickSort::QuickSort()
+	: SortAlgorithm("QuickSort")
 {
-	for (sf::RectangleShape s : this->shapes)
-		target.draw(s);
+}
+
+//Protected functions
+void QuickSort::sort()
+{
+	this->quickSortFunction(0, this->size() - 1);
 }

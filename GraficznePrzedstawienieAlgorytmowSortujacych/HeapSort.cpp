@@ -23,82 +23,50 @@
 
 #include "HeapSort.h"
 
-void HeapSort::initData()
+//Private functions
+void HeapSort::validateMaxHeap(int heapSize, int parentIndex)
 {
-	this->shapes = exampleData.dataAccess();
-}
+	/*
+	* @return void.
+	*
+	* Moves parent down until it is higher than both of its children (max heap).
+	*/
 
-void HeapSort::initVariables()
-{
-	this->initData();
-}
-
-void HeapSort::validateMaxHeap(sf::RenderWindow& window, int heapSize, int parentIndex)
-{
 	int maxIndex = parentIndex;
 	int leftChild = parentIndex * 2 + 1;
 	int rightChild = parentIndex * 2 + 2;
 
-	if (leftChild < heapSize && shapes[leftChild].getSize().y > shapes[maxIndex].getSize().y) {
+	if (leftChild < heapSize && this->height(leftChild) > this->height(maxIndex)) {
 		maxIndex = leftChild;
 	}
 
-	if (rightChild < heapSize && shapes[rightChild].getSize().y > shapes[maxIndex].getSize().y) {
+	if (rightChild < heapSize && this->height(rightChild) > this->height(maxIndex)) {
 		maxIndex = rightChild;
 	}
 
 	if (maxIndex != parentIndex) {
-		swapik(window, maxIndex, parentIndex);
-		validateMaxHeap(window, heapSize, maxIndex);
+		this->swapBars(maxIndex, parentIndex);
+		this->validateMaxHeap(heapSize, maxIndex);
 	}
 }
 
-void HeapSort::swapik(sf::RenderWindow& window, int index1, int index2)
-{
-	sf::Vector2f tempSize = this->shapes[index1].getSize();
-	sf::Vector2f tempPos = this->shapes[index1].getPosition();
-
-	this->shapes[index1].setFillColor(sf::Color::Red);
-	this->shapes[index2].setFillColor(sf::Color::Red);
-
-	shapes[index1].setSize(shapes[index2].getSize());
-	shapes[index1].setPosition(sf::Vector2f(this->shapes[index1].getPosition().x, shapes[index2].getPosition().y));
-
-	shapes[index2].setSize(tempSize);
-	shapes[index2].setPosition(sf::Vector2f(this->shapes[index2].getPosition().x, tempPos.y));
-
-	window.clear();
-
-	for (sf::RectangleShape s : this->shapes) {
-		window.draw(s);
-	}
-
-	window.display();
-
-	this->shapes[index1].setFillColor(sf::Color::White);
-	this->shapes[index2].setFillColor(sf::Color::White);
-}
-
+//Cons / Des
 HeapSort::HeapSort()
+	: SortAlgorithm("HeapSort")
 {
-	this->initVariables();
 }
 
-void HeapSort::heapSortFunction(sf::RenderWindow& window)
+//Protected functions
+void HeapSort::sort()
 {
-	int n = this->shapes.size();
-	
+	int n = this->size();
+
 	for (int i = n / 2 - 1; i >= 0; i--) {
-		validateMaxHeap(window, n, i);
+		this->validateMaxHeap(n, i);
 	}
 
 	for (int i = n - 1; i > 0; i--) {
-		swapik(window, 0, i);
-		validateMaxHeap(window, --n, 0);
+		this->swapBars(0, i);
+		this->validateMaxHeap(i, 0);
 	}
-}
-
-void HeapSort::render(sf::RenderTarget& target)
-{
-	for (sf::RectangleShape s : this->shapes) target.draw(s);
 }

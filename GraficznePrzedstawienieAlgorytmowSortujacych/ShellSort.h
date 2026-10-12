@@ -1,22 +1,12 @@
 #pragma once
 
-#include "ExampleData.h"
+#include "SortAlgorithm.h"
 
-class ShellSort
+class ShellSort : public SortAlgorithm
 {
-private:
-	ExampleData exampleData;
-
-	std::vector<sf::RectangleShape> shapes;
-
-	void initVariables();
-	void initData();
+protected:
+	void sort() override;
 
 public:
 	ShellSort();
-
-	void shellSortFunction(sf::RenderWindow& window);
-
-	void render(sf::RenderTarget& target);
 };
-

@@ -1,28 +1,16 @@
 #pragma once
 
-#include "ExampleData.h"
+#include "SortAlgorithm.h"
 
-class QuickSort
+class QuickSort : public SortAlgorithm
 {
 private:
-	//Priavte variables
-	ExampleData exampleData;
-
-	std::vector<sf::RectangleShape> shapes;
-
 	//Private functions
-	void initData();
-	void initVariables();
-	void quickSortFunction(sf::RenderWindow& window, std::vector<sf::RectangleShape>& tabvec, int start, int end);
+	void quickSortFunction(int start, int end);
+
+protected:
+	void sort() override;
 
 public:
-	//Public variables
-
-	//Public functions
-	QuickSort(sf::RenderWindow& window);
-	
-	void initQuickSortFunction(sf::RenderWindow& window);
-
-	void render(sf::RenderTarget& target);
+	QuickSort();
 };
-

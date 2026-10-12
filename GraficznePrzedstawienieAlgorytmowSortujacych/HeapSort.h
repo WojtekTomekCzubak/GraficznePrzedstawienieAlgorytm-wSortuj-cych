@@ -36,25 +36,17 @@
 
 #pragma once
 
-#include "ExampleData.h"
+#include "SortAlgorithm.h"
 
-class HeapSort
+class HeapSort : public SortAlgorithm
 {
 private:
-	ExampleData exampleData;
+	//Private functions
+	void validateMaxHeap(int heapSize, int parentIndex);
 
-	std::vector<sf::RectangleShape> shapes;
-
-	void initData();
-	void initVariables();
-	void validateMaxHeap(sf::RenderWindow& window, int heapSize, int parentIndex);
-	void swapik(sf::RenderWindow& window, int index1, int index2);
+protected:
+	void sort() override;
 
 public:
 	HeapSort();
-
-	void heapSortFunction(sf::RenderWindow& window);
-	
-	void render(sf::RenderTarget& target);
 };
-

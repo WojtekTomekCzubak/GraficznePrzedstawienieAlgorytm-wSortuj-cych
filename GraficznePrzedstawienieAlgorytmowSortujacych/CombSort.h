@@ -1,24 +1,12 @@
 #pragma once
 
-#include "ExampleData.h"
+#include "SortAlgorithm.h"
 
-class CombSort
+class CombSort : public SortAlgorithm
 {
-private:
-	//Private variables
-	ExampleData exampleData;
-	std::vector<sf::RectangleShape> shapes;
-
-	//Private functions
-	void initVariables();
-	void initShapes();
+protected:
+	void sort() override;
 
 public:
-	//Public variables
-	CombSort(sf::RenderWindow& window);
-
-	//Public variables
-	void combSortingFunction(sf::RenderWindow& target);
-	void render(sf::RenderTarget& target);
+	CombSort();
 };
-

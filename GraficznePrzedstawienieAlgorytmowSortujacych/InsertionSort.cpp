@@ -1,66 +1,30 @@
 #include "InsertionSort.h"
 
-void InsertionSort::initVariables()
+//Cons / Des
+InsertionSort::InsertionSort()
+	: SortAlgorithm("InsertionSort")
 {
-	this->initData();
 }
 
-void InsertionSort::initData()
+//Protected functions
+void InsertionSort::sort()
 {
-	this->shapes = this->exampleData.dataAccess();
-}
+	/*
+	* @return void.
+	*
+	* Takes next bar and moves higher bars one place to the right, until a place for taken bar is found.
+	*/
 
-InsertionSort::InsertionSort(sf::RenderWindow& window)
-{
-	this->initVariables();
-}
+	for (int i = 1; i < this->size(); i++) {
+		float key = this->height(i);
+		int j;
 
-void InsertionSort::insertionSortFunction(sf::RenderWindow& window)
-{
-	int j, pos;
-	sf::Vector2f size;
-
-	for (int i = 1; i < shapes.size(); i++) {
-		size = shapes[i].getSize();
-		pos = shapes[i].getPosition().y;
-
-		for (j = i - 1; j >= 0 && shapes[j].getSize().y > size.y; j--) {
-			shapes[j + 1].setFillColor(sf::Color::Red);
-
-			shapes[j + 1].setSize(sf::Vector2f(shapes[j+1].getSize().x, shapes[j].getSize().y));
-			shapes[j + 1].setPosition(sf::Vector2f(shapes[j+1].getPosition().x, shapes[j].getPosition().y));
-
-			window.clear();
-
-			for (sf::RectangleShape s : this->shapes) {
-				window.draw(s);
-			}
-
-			window.display();
-
-			shapes[j + 1].setFillColor(sf::Color::White);
+		for (j = i - 1; j >= 0 && this->height(j) > key; j--) {
+			this->setHeight(j + 1, this->height(j));
+			this->showStep({ j + 1 });
 		}
 
-		shapes[j + 1].setFillColor(sf::Color::Red);
-
-		shapes[j + 1].setSize(sf::Vector2f(shapes[j+1].getSize().x, size.y));
-		shapes[j + 1].setPosition(sf::Vector2f(shapes[j + 1].getPosition().x, pos));
-
-		window.clear();
-
-		for (sf::RectangleShape s : this->shapes) {
-			window.draw(s);
-		}
-
-		window.display();
-
-		shapes[j + 1].setFillColor(sf::Color::White);
-	}
-}
-
-void InsertionSort::render(sf::RenderTarget& target)
-{
-	for (sf::RectangleShape s : shapes) {
-		target.draw(s);
+		this->setHeight(j + 1, key);
+		this->showStep({ j + 1 });
 	}
 }
